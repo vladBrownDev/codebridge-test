@@ -1,0 +1,21 @@
+@import "../global.scss";
+
+#main {
+  width: 1290px;
+  margin: 0 auto;
+  #main__head {
+    @include mainFont;
+    font-weight: 600;
+    font-size: 16px;
+  }
+  #main__underline {
+    width: 1290px;
+    margin: 0 auto;
+    height: 1px;
+    background-color: #eaeaea;
+    margin-top: 5px;
+  }
+  #main__postsWrapper {
+    margin-top: 60px;
+  }
+}
