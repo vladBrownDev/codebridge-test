@@ -17,5 +17,16 @@
   }
   #main__postsWrapper {
     margin-top: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    .main__post {
+      width: 400px;
+      height: 530px;
+      background-color: black;
+      margin-right: 30px;
+    }
+    .main__post:nth-child(3n) {
+      margin-right: 0;
+    }
   }
 }
