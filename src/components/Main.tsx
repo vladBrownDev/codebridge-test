@@ -1,5 +1,6 @@
 import React from 'react';
 import './main.scss';
+import Post from './Post';
 
 import { Box } from '@mui/material';
 
@@ -11,6 +12,7 @@ function Main() {
       </Box>
       <Box id="main__underline"></Box>
       <Box id="main__postsWrapper">
+        <Post/>
       </Box>
     </section>
   );

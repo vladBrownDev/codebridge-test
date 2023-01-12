@@ -3,6 +3,7 @@
 #main {
   width: 1290px;
   margin: 0 auto;
+  min-height: 760px;
   #main__head {
     @include mainFont;
     font-weight: 600;
@@ -16,17 +17,8 @@
     margin-top: 5px;
   }
   #main__postsWrapper {
-    margin-top: 60px;
+    margin-top: 40px;
     display: flex;
     flex-wrap: wrap;
-    .main__post {
-      width: 400px;
-      height: 530px;
-      background-color: black;
-      margin-right: 30px;
-    }
-    .main__post:nth-child(3n) {
-      margin-right: 0;
-    }
   }
 }
