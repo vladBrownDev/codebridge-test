@@ -1,10 +1,15 @@
 import React from 'react';
 import './post.scss';
 
-import { Box } from '@mui/material';
+import { Box, Link } from '@mui/material';
 import { DataResponse } from '../App';
 
-function Post(props: DataResponse) {
+interface Props extends DataResponse {
+  openPost: () => void
+}
+
+function Post(props: Props) {
+  const postTime = props.publishedAt.split("T")[0]
   return (
     <Box className='main__post'>
       <Box
@@ -16,7 +21,7 @@ function Post(props: DataResponse) {
       <Box className='post__text'>
         <Box sx={{"display": "flex"}}>
           <Box className='post__calendarIcon'></Box>
-          <Box className='post__date'>{ props.publishedAt }</Box>
+          <Box className='post__date'>{ postTime }</Box>
         </Box>
         <Box className='post__headText'>
           {props.title}
@@ -24,10 +29,13 @@ function Post(props: DataResponse) {
         <Box className='post__description'>
           {props.summary}
         </Box>
-        <Box className='post__readmoreWrapper'>
+        <Link
+          underline='none'
+          className='post__readmoreWrapper'
+          onClick={props.openPost}>
           <Box className='post__readmore'>Read more</Box>
           <Box className='post__arrowIcon'></Box>
-        </Box>
+        </Link>
       </Box>
       
     </Box>

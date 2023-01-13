@@ -8,7 +8,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 
 type Props = {
-  searchFunc: (param: string) => Promise<number>
+  searchFunc: (param: string) => Promise<void>
 }
 
 export default function Header(props: Props) {
