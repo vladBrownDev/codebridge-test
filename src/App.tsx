@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import Header from './components/Header';
 import Main from './components/Main';
+import OpenedPost from './components/OpenedPost';
 
 export interface DataResponse {
   events?: string[],
@@ -18,9 +19,27 @@ export interface DataResponse {
   url?: string
 }
 
+interface ChosenPost  {
+  summary: string,
+  title: string,
+  imageUrl: string
+}
 
 function App() {
   const [posts, setPosts] = useState<DataResponse[]>([])
+  const [chosenPost, setChosenPost] = useState<ChosenPost>()
+
+  function openPost(title: string, summary: string,imageUrl:string):void {
+    setChosenPost({
+      title: title,
+      summary: summary,
+      imageUrl: imageUrl
+    })
+  }
+
+  function closePost() {
+    setChosenPost(undefined)
+  }
 
   async function getPosts(request: string) {
     const url = `https://api.spaceflightnewsapi.net/v3/articles?title_contains=${request}`
@@ -30,11 +49,7 @@ function App() {
           Accept: 'application/json',
         },
       },);
-      console.log(data);
-      const dataCopy = data;
-      setPosts(dataCopy)
-      console.log(posts)
-      return dataCopy.length
+      setPosts(data)
     }
     catch (error) {
       if (axios.isAxiosError(error)) {
@@ -42,17 +57,29 @@ function App() {
       } else {
         console.log('unexpected error: ', error);
       }
-      return 0
     }
-}
-
+  }
+  function MainPageComponent() {
+    return (
+      <>
+        <Header searchFunc={(param:string) => getPosts(param)} />
+        <main>
+          <Main
+            posts={posts}
+            openPost={(title: string, summary: string, imageUrl:string) => openPost(title, summary,imageUrl)}
+          />
+        </main> 
+      </>
+    )
+  }
   return (
-    <>
-      <Header searchFunc={(param:string) => getPosts(param)} />
-      <main>
-        <Main posts={posts} />
-      </main>
-    </>
+    chosenPost !== undefined ?
+      <OpenedPost
+        imageUrl={chosenPost.imageUrl}
+        title={chosenPost.title}
+        summary={chosenPost.summary}
+        closePost={closePost}
+      /> : MainPageComponent()
   );
 }
 
