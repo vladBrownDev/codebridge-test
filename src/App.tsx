@@ -16,7 +16,8 @@ export interface DataResponse {
   summary: string,
   title: string,
   updatedAt?: string,
-  url?: string
+  url?: string,
+  request: string
 }
 
 interface ChosenPost  {
@@ -42,14 +43,17 @@ function App() {
   }
 
   async function getPosts(request: string) {
-    const url = `https://api.spaceflightnewsapi.net/v3/articles?title_contains=${request}`
+    const titleUrl = `https://api.spaceflightnewsapi.net/v3/articles?title_contains=${request}`
+    const summaryUrl = `https://api.spaceflightnewsapi.net/v3/articles?summary_contains=${request}`
     try {
-      const { data } = await axios.get<DataResponse[]>(url,{
-        headers: {
-          Accept: 'application/json',
-        },
-      },);
-      setPosts(data)
+      const titleData = await axios.get<DataResponse[]>(titleUrl);
+      const summaryData = await axios.get<DataResponse[]>(summaryUrl);
+      const allPosts = [...titleData.data, ...summaryData.data].map((el) => {
+        let newElement = el
+        newElement.request = request
+        return newElement
+      })
+      setPosts(allPosts)
     }
     catch (error) {
       if (axios.isAxiosError(error)) {

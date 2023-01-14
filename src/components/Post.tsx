@@ -1,8 +1,10 @@
 import React from 'react';
 import './post.scss';
+import Highlighter from "react-highlight-words";
 
 import { Box, Link } from '@mui/material';
 import { DataResponse } from '../App';
+
 
 interface Props extends DataResponse {
   openPost: () => void
@@ -24,10 +26,18 @@ function Post(props: Props) {
           <Box className='post__date'>{ postTime }</Box>
         </Box>
         <Box className='post__headText'>
-          {props.title}
+          <Highlighter
+            searchWords={props.request.split(" ")}
+            autoEscape={true}
+            textToHighlight={props.title}
+          />,
         </Box>
         <Box className='post__description'>
-          {props.summary}
+          <Highlighter
+            searchWords={props.request.split(" ")}
+            autoEscape={true}
+            textToHighlight={props.summary}
+          />,
         </Box>
         <Link
           underline='none'
