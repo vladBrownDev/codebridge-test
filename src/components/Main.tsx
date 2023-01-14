@@ -16,7 +16,7 @@ function Main(props: Props) {
   return (
     <section id="main">
       <Box id="main__head">
-        Results: {posts.length}
+        Results: {posts.length === 0 ? " no posts yet" : posts.length}
       </Box>
       <Box id="main__underline"></Box>
       <Box id="main__postsWrapper">

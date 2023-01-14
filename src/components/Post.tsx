@@ -11,7 +11,39 @@ interface Props extends DataResponse {
 }
 
 function Post(props: Props) {
-  const postTime = props.publishedAt.split("T")[0]
+
+  function transformDate(date: string) {
+    let result = ""
+    const dateArr = date.split("T")[0].split("-")
+    const monthNumber = Number(dateArr[1])
+    const yearNumber = dateArr[0]
+    const dayNumber = Number(dateArr[2])
+    //getting month
+    const d = new Date()
+    d.setMonth(monthNumber - 1);
+    const month = d.toLocaleString('en-US', { month: 'long' })
+    result += month
+    //getting day
+    let day
+    switch (dayNumber) {
+      case 1:
+        day = ` 1st`
+        break
+      case 2:
+        day = ` 2nd`
+        break
+      case 3:
+        day = ` 3rd`
+        break
+      default:
+        day = ` ${dayNumber}th`
+    }
+    result += day
+    result += `, ${yearNumber}`
+    return result
+  }
+
+  
   return (
     <Box className='main__post'>
       <Box
@@ -23,21 +55,21 @@ function Post(props: Props) {
       <Box className='post__text'>
         <Box sx={{"display": "flex"}}>
           <Box className='post__calendarIcon'></Box>
-          <Box className='post__date'>{ postTime }</Box>
+          <Box className='post__date'>{ transformDate(props.publishedAt) }</Box>
         </Box>
         <Box className='post__headText'>
           <Highlighter
             searchWords={props.request.split(" ")}
             autoEscape={true}
             textToHighlight={props.title}
-          />,
+          />
         </Box>
         <Box className='post__description'>
           <Highlighter
             searchWords={props.request.split(" ")}
             autoEscape={true}
             textToHighlight={props.summary}
-          />,
+          />
         </Box>
         <Link
           underline='none'

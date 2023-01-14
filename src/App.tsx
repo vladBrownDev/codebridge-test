@@ -43,16 +43,25 @@ function App() {
   }
 
   async function getPosts(request: string) {
+    setPosts([])
     const titleUrl = `https://api.spaceflightnewsapi.net/v3/articles?title_contains=${request}`
     const summaryUrl = `https://api.spaceflightnewsapi.net/v3/articles?summary_contains=${request}`
+
     try {
       const titleData = await axios.get<DataResponse[]>(titleUrl);
       const summaryData = await axios.get<DataResponse[]>(summaryUrl);
-      const allPosts = [...titleData.data, ...summaryData.data].map((el) => {
+
+      let allPosts = [...titleData.data, ...summaryData.data].map((el) => {
         let newElement = el
         newElement.request = request
         return newElement
       })
+
+      allPosts = allPosts.filter((value, index, self) =>
+        index === self.findIndex((t) => (
+          t.title === value.title
+        ))
+      )
       setPosts(allPosts)
     }
     catch (error) {
