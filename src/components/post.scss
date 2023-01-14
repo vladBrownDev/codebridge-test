@@ -10,7 +10,6 @@
 .main__post {
   width: 400px;
   height: 530px;
-  margin-right: 30px;
   margin-bottom: 45px;
   border: 1px solid #eaeaea;
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.05);
@@ -84,7 +83,4 @@
       }
     }
   }
-}
-.main__post:nth-child(3n) {
-  margin-right: 0;
 }
