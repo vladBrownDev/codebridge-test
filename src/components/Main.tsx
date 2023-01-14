@@ -28,6 +28,7 @@ function Main(props: Props) {
             summary={el.summary}
             openPost={() => { openPost(el.title, el.summary,el.imageUrl) }}
             key={`post${ind}`}
+            request={el.request}
           />
         })}
       </Box>
