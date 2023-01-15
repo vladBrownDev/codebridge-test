@@ -44,8 +44,28 @@ function App() {
 
   async function getPosts(request: string) {
     setPosts([])
-    const titleUrl = `https://api.spaceflightnewsapi.net/v3/articles?title_contains=${request}`
-    const summaryUrl = `https://api.spaceflightnewsapi.net/v3/articles?summary_contains=${request}`
+    
+    let requestArr = request.split(" ")
+    //including combinations of words in request
+
+    let wordsCombination:string[] = []
+    requestArr.forEach((el, ind) => {
+      wordsCombination.length === 0 ?
+        wordsCombination.push(el) :
+        wordsCombination.push(wordsCombination[ind - 1] + "%20" + el)
+    })
+    requestArr = [...wordsCombination,...requestArr,]
+    // including single words in request
+
+    const titleRequest = requestArr.map((el, ind) => {
+      return ind === 0 ? `title_contains=${el}` : `&title_contains=${el}`
+    })
+    const summaryRequest = requestArr.map((el, ind) => {
+      return ind === 0 ? `summary_contains=${el}` : `&summary_contains=${el}`
+    })
+
+    const titleUrl = `https://api.spaceflightnewsapi.net/v3/articles?${titleRequest.join("")}`
+    const summaryUrl = `https://api.spaceflightnewsapi.net/v3/articles?${summaryRequest.join("")}}`
 
     try {
       const titleData = await axios.get<DataResponse[]>(titleUrl);
@@ -57,21 +77,22 @@ function App() {
         return newElement
       })
 
-      allPosts = allPosts.filter((value, index, self) =>
-        index === self.findIndex((t) => (
-          t.title === value.title
+      allPosts = allPosts.filter((el, ind, self) =>
+        ind === self.findIndex((t) => (
+          t.title === el.title
         ))
       )
       setPosts(allPosts)
     }
     catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log('error message: ', error.message);
+        alert(error.message);
       } else {
-        console.log('unexpected error: ', error);
+        alert(error);
       }
     }
   }
+
   function MainPageComponent() {
     return (
       <>
