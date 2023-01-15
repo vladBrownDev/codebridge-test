@@ -14,12 +14,14 @@ function Post(props: Props) {
 
   function transformDate(date: string) {
     let result = ""
-    const [yearNumber, monthNumber,dayNumber] = date.split("T")[0].split("-")
+    const [yearNumber, monthNumber, dayNumber] = date.split("T")[0].split("-")
+    
     //getting month
     const d = new Date()
     d.setMonth(Number(monthNumber) - 1);
     const month = d.toLocaleString('en-US', { month: 'long' })
     result += month
+    
     //getting day
     let day
     switch (Number(dayNumber)) {
